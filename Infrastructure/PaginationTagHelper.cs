@@ -37,7 +37,7 @@ namespace Mission_7_Assignment.Models.Infrastructure
 
             TagBuilder final = new TagBuilder("div");
 
-            for (int i =1; i < PageModel.TotalPages; i++)
+            for (int i = 1; i <= PageModel.TotalPages; i++)
             {
                 TagBuilder tb = new TagBuilder("a");
 
