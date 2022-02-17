@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//Bootstrap styles are added in. Not sure why it is not funcioning on the final website.
 namespace Mission_7_Assignment.Models.Infrastructure
 {
     [HtmlTargetElement("div", Attributes = "page-model")]
@@ -31,6 +32,13 @@ namespace Mission_7_Assignment.Models.Infrastructure
         public PageInfo PageModel { get; set; }
         public string PageAction { get; set; }
 
+        //Creates stylees**************************************************
+        public bool PageClassesEnabled { get; set; } = false;
+        public string PageClass { get; set; }
+        public string PageClassNormal { get; set; }
+        public string PageClassSelected { get; set; }
+        //End add ******************************************************
+
         public override void Process(TagHelperContext thc, TagHelperOutput tho)
         {
             IUrlHelper uh = uhf.GetUrlHelper(vc);
@@ -42,6 +50,16 @@ namespace Mission_7_Assignment.Models.Infrastructure
                 TagBuilder tb = new TagBuilder("a");
 
                 tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = i });
+                
+                //Creates styles**********************************************
+                if (PageClassesEnabled)
+                {
+                    tb.AddCssClass(PageClass);
+                    tb.AddCssClass(i == PageModel.CurrentPage
+                        ? PageClassSelected : PageClassNormal);
+                }
+                //End add***************************************************************
+
                 tb.InnerHtml.Append(i.ToString());
 
                 final.InnerHtml.AppendHtml(tb);
