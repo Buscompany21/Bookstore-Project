@@ -3,29 +3,16 @@
 
 @model BooksViewModel
 
-<!--Creates the container that holds the main page-->
-<div class="container">
-    <div class="text-center">
-        <h1 class="display-1">The Bookstore</h1>
-    </div>
     
-    <!--Goes through all of the pages to display the books in the database-->
-    @foreach (Book b in Model.Books)
-    {
-        <h3 class="display-6">@b.Title</h3>
+<!--Goes through all of the pages to display the books in the database-->
+@foreach (Book b in Model.Books)
+{
+    <partial name="ProjectSummary" model="b"/>
+}
 
-        <ul>
-            <li>Author: @b.Author</li>
-            <li>Publisher: @b.Publisher</li>
-            <li>ISBN: @b.Isbn</li>
-            <li>Classification: @b.Classification</li>
-            <li>Category: @b.Category</li>
-            <li>Page Count: @b.PageCount</li>
-            <li>Price: @b.Price</li>
-        </ul>
-    }
+<!--Pagination that is used at the bottom.-->
+<div page-model="@Model.PageInfo" page-action="Index" page-class="btn" 
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-classes-enabled="true"
+     class="btn-group pull-right m-1"></div>
 
-    <!--Pagination that is used at the bottom.-->
-    <div page-model="@Model.PageInfo" page-action="Index"></div>
-</div>
 

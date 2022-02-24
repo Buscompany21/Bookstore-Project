@@ -4,11 +4,28 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="~/lib/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div>
-        @RenderBody()
+    
+    <div class="bg-dark text-white p-2">
+        <span class="navbar-brand m-lg-2">The Bookstore</span>
     </div>
+
+
+    <div class="row m-1 p-1">
+
+        <div id="types" class="col-3">
+            <vc:types></vc:types>
+        </div>
+
+        <div class="col-9">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+
 </body>
 </html>
