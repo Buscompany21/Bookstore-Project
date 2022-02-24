@@ -29,7 +29,10 @@ namespace Mission_7_Assignment.Controllers
 
                 PageInfo = new PageInfo
                 {
-                    TotalNumProjects = repo.Books.Count(),
+                    TotalNumProjects = 
+                        (category == null 
+                            ?  repo.Books.Count() 
+                            : repo.Books.Where(x => x.Category == category).Count()),
                     ProjectsPerPage = pageSize,
                     CurrentPage = pageNum
                 }
