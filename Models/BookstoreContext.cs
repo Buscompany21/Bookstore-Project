@@ -20,6 +20,7 @@ namespace Mission_7_Assignment.Models
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Purchase> Purchase { get; set; }
 
     }
 }

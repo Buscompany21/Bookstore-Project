@@ -11,20 +11,21 @@ namespace Mission_7_Assignment.Pages
 {
     public class ShoppingCartModel : PageModel
     {
-        private double price;
+        //private double price;
 
         private IBookstoreRepository repo { get; set; }
-        public ShoppingCartModel (IBookstoreRepository temp)
-        {
-            repo = temp;
-        }
-
         public Basket Basket { get; set; }
         public string ReturnUrl { get; set; }
+
+        public ShoppingCartModel (IBookstoreRepository temp, Basket b)
+        {
+            repo = temp;
+            Basket = b;
+        }
+
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            Basket = HttpContext.Session.GetJson<Basket>("Basket") ?? new Basket();
         }
 
         public IActionResult OnPost(int bookId, string returnUrl)
@@ -32,12 +33,16 @@ namespace Mission_7_Assignment.Pages
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookId);
             double p = repo.Books.FirstOrDefault(x => x.BookId == bookId).Price;
 
-            Basket = HttpContext.Session.GetJson<Basket>("Basket") ?? new Basket();
             Basket.AddItem(b, 1, p);
 
-            HttpContext.Session.SetJson("Basket", Basket);
-
             return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
+
+        public IActionResult OnPostRemove(int bookId, string returnUrl)
+        {
+            Basket.RemoveItem(Basket.Items.First(x => x.Book.BookId == bookId).Book);
+
+            return RedirectToPage(new {ReturnUrl = returnUrl});
         }
     }
 }
