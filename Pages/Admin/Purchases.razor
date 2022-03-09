@@ -1,0 +1,41 @@
+﻿@page "/admin/purchases"
+@inherits OwningComponentBase<IPurchaseRepository>
+
+<PurchaseTable TableTitle="Uncollected Purchases" Purchases="UncollectedPurchases"
+               ButtonLabel="Collected" PurchaseSelected="CollectPurchase"></PurchaseTable>
+
+<PurchaseTable TableTitle="Collected Purchases" Purchases="CollectedPurchases"
+               ButtonLabel="Reset" PurchaseSelected="ResetPurchase"></PurchaseTable>
+
+<button class="btn btn-info" @onclick="@(x => UpdateData())">Refresh Data</button>
+
+@code {
+
+    public IPurchaseRepository repo => Service;
+
+    public IEnumerable<Purchase> AllPurchases { get; set; }
+    public IEnumerable<Purchase> UncollectedPurchases { get; set; }
+    public IEnumerable<Purchase> CollectedPurchases { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        AllPurchases = await repo.Purchases.ToListAsync();
+        UncollectedPurchases = AllPurchases.Where(x => !x.PurchasedReceived);
+        CollectedPurchases = AllPurchases.Where(x => x.PurchasedReceived);
+    }
+
+    public void CollectPurchase(int id) => UpdatePurchase(id, true);
+    public void ResetPurchase(int id) => UpdatePurchase(id, false);
+    private void UpdatePurchase (int id, bool purchased)
+    {
+        Purchase p = repo.Purchases.FirstOrDefault(x => x.PurchaseId == id);
+        p.PurchasedReceived = purchased;
+        repo.SavePurchase(p);
+    }
+
+}

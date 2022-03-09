@@ -36,5 +36,8 @@ namespace Mission_7_Assignment.Models
         public string Country { get; set; }
 
         public bool Anonymous { get; set; }
+
+        [BindNever]
+        public bool PurchasedReceived { get; set; }
     }
 }
