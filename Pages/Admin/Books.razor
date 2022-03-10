@@ -1,8 +1,79 @@
 ﻿@page "/admin/books"
 @page "/admin"
+@inherits OwningComponentBase<IBookstoreRepository>
 
-<h3>Books</h3>
+<table class="table table-sm table-striped table-bordered">
+
+    <thead>
+        <tr>
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @if (BookData?.Count() >0)
+        {
+            //List the books
+            @foreach (Book b in BookData)
+            {
+                <tr>
+                    <td>@b.BookId</td>
+                    <td>@b.Title</td>
+                    <td>@b.Price</td>
+
+                    <td>
+                        <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
+                    </td>
+
+                    <td>
+                        <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-danger btn-sm" @onclick="@(X => RemoveBook(b))">Delete</button>
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Books</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<NavLink class="btn btn-primary" href="/admin/books/add">Add</NavLink>
 
 @code {
 
+    public IBookstoreRepository repo => Service;
+
+    public IEnumerable<Book> BookData { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        BookData = await repo.Books.ToListAsync();
+    }
+
+    public string GetDetailsUrl(long id) => $"/admin/books/details/{id}";
+    public string GetEditUrl(long id) => $"/admin/books/edit/{id}";
+    
+    public async Task RemoveBook (Book b)
+    {
+        repo.DeleteBook(b);
+        await UpdateData();
+    }
 }
