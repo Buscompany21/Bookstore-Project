@@ -9,7 +9,7 @@ using Mission_7_Assignment.Models;
 namespace Mission_7_Assignment.Migrations.AppIdentityDB
 {
     [DbContext(typeof(AppIdentityDBContext))]
-    [Migration("20220316172723_IdentitySetup")]
+    [Migration("20220316213939_IdentitySetup")]
     partial class IdentitySetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
