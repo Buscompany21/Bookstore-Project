@@ -6,7 +6,7 @@ ASP.Net Core web application. Created to develop backend coding skills.
 
 Bookstore connected to a sqlite database. 
 
-Features implemented:
+## Features implemented:
 
 -Ability to filter by book category
 
