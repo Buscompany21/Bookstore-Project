@@ -1,4 +1,4 @@
-# Mission_7_Assignment
+# Bookstore Project
 
 Brigham Young University Information Systems School Project
 
